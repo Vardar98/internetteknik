@@ -13,7 +13,7 @@ from Crypto.Cipher import PKCS1_OAEP
 TIMES = 1
 
 '''FOR THE CODE BELOW CODES IN: https://eli.thegreenplace.net/2010/06/25/aes-encryption-of-files-in-python-with-pycrypto
-AND https://ismailakkila.medium.com/black-hat-python-encrypt-and-decrypt-with-rsa-cryptography-bd6df84d65bc HAS BEEN VERY HELPFUL'''
+AND https://ismailakkila.medium.com/black-hat-python-encrypt-and-decrypt-with-rsa-cryptography-bd6df84d65bc HVE BEEN A GREAT HELP'''
 def encrypt_file_AES_CBC(key, in_filename, out_filename, chunksize=64*1024):
     """ Encrypts a file using AES (CBC mode) with the
         given key.
