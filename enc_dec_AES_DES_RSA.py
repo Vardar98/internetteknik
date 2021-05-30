@@ -11,9 +11,15 @@ from Crypto.Cipher import PKCS1_OAEP
 
 
 TIMES = 1
+INITIAL_FILES = ['initial_text.txt', 'initial_big_text.txt','initial_pic.png', 'initial_big_pic.png', 'initial_file.pdf' , 'initial_big_file.pdf']
+ENC_FILES = ['enc_text.txt', 'enc_big_text.txt','enc_pic.png', 'enc_big_pic.png', 'enc_file.pdf', 'enc_big_file.pdf']
+DEC_FILES =['dec_text.txt', 'dec_big_text.txt','dec_pic.png', 'dec_big_pic.png','dec_file.pdf', 'dec_big_file.pdf'] 
+
+
+
 
 '''FOR THE CODE BELOW CODES IN: https://eli.thegreenplace.net/2010/06/25/aes-encryption-of-files-in-python-with-pycrypto
-AND https://ismailakkila.medium.com/black-hat-python-encrypt-and-decrypt-with-rsa-cryptography-bd6df84d65bc HVE BEEN A GREAT HELP'''
+AND https://ismailakkila.medium.com/black-hat-python-encrypt-and-decrypt-with-rsa-cryptography-bd6df84d65bc HAS BEEN VERY HELPFUL'''
 def encrypt_file_AES_CBC(key, in_filename, out_filename, chunksize=64*1024):
     """ Encrypts a file using AES (CBC mode) with the
         given key.
@@ -69,18 +75,11 @@ def enc_dec_AES_CBC():
     end = time.time()
     key_time = end-start
     times_for_AES_CBC = []
-    time_enc_AES_CBC_1 = timeit.timeit(stmt=lambda: encrypt_file_AES_CBC(key,'initial_pic.png','enc_pic.png'), number=TIMES)
-    times_for_AES_CBC.append(time_enc_AES_CBC_1+key_time)
-    time_dec_AES_CBC_1 = timeit.timeit(stmt=lambda: decrypt_file_AES_CBC(key, 'enc_pic.png', 'dec_pic.png'), number=TIMES)
-    times_for_AES_CBC.append(time_dec_AES_CBC_1)
-    time_enc_AES_CBC_2 = timeit.timeit(stmt=lambda: encrypt_file_AES_CBC(key,'initial_text.txt','enc_text.txt'), number=TIMES)
-    times_for_AES_CBC.append(time_enc_AES_CBC_2+key_time)
-    time_dec_AES_CBC_2 = timeit.timeit(stmt=lambda: decrypt_file_AES_CBC(key, 'enc_text.txt', 'dec_text.txt'), number=TIMES)
-    times_for_AES_CBC.append(time_dec_AES_CBC_2)
-    time_enc_AES_CBC_3 = timeit.timeit(stmt=lambda: encrypt_file_AES_CBC(key,'initial_file.pdf','enc_file.pdf'), number=TIMES)
-    times_for_AES_CBC.append(time_enc_AES_CBC_3+key_time)
-    time_dec_AES_CBC_3 = timeit.timeit(stmt=lambda: decrypt_file_AES_CBC(key, 'enc_file.pdf', 'dec_file.pdf'), number=TIMES)
-    times_for_AES_CBC.append(time_dec_AES_CBC_3)
+    for i in range(len(INITIAL_FILES)):
+        time1 = timeit.timeit(stmt=lambda: encrypt_file_AES_CBC(key,INITIAL_FILES[i],ENC_FILES[i]), number=TIMES)
+        times_for_AES_CBC.append(time1+key_time)
+        time2 = timeit.timeit(stmt=lambda: decrypt_file_AES_CBC(key, ENC_FILES[i], DEC_FILES[i]), number=TIMES)
+        times_for_AES_CBC.append(time2)
     #encrypt_file_AES_CBC(key,'initial_pic.png','enc_pic.png')
     #decrypt_file_AES_CBC(key, 'enc_pic.png', 'dec_pic.png')
     #encrypt_file_AES_CBC(key,'initial_text.txt','enc_text.txt')
@@ -140,20 +139,16 @@ def decrypt_file_DES_CBC(key, in_filename, out_filename, chunksize=24*1024):
 
 
 def enc_dec_DES_CBC():
-    key = 'k4jver8['
+    start = time.time()
+    key = ''.join(chr(random.randint(0, 0x7F)) for i in range(8))
+    end = time.time()
+    key_time = end-start
     times_for_DES_CBC = []
-    time_enc_DES_CBC_1 = timeit.timeit(stmt=lambda: encrypt_file_DES_CBC(key,'initial_pic.png','enc_pic.png'), number=TIMES)
-    times_for_DES_CBC.append(time_enc_DES_CBC_1)
-    time_dec_DES_CBC_1 = timeit.timeit(stmt=lambda: decrypt_file_DES_CBC(key, 'enc_pic.png', 'dec_pic.png'), number=TIMES)
-    times_for_DES_CBC.append(time_dec_DES_CBC_1)
-    time_enc_DES_CBC_2 = timeit.timeit(stmt=lambda: encrypt_file_DES_CBC(key,'initial_text.txt','enc_text.txt'), number=TIMES)
-    times_for_DES_CBC.append(time_enc_DES_CBC_2)
-    time_dec_DES_CBC_2 = timeit.timeit(stmt=lambda: decrypt_file_DES_CBC(key, 'enc_text.txt', 'dec_text.txt'), number=TIMES)
-    times_for_DES_CBC.append(time_dec_DES_CBC_2)
-    time_enc_DES_CBC_3 = timeit.timeit(stmt=lambda: encrypt_file_DES_CBC(key,'initial_file.pdf','enc_file.pdf'), number=TIMES)
-    times_for_DES_CBC.append(time_enc_DES_CBC_3)
-    time_dec_DES_CBC_3 = timeit.timeit(stmt=lambda: decrypt_file_DES_CBC(key, 'enc_file.pdf', 'dec_file.pdf'), number=TIMES)
-    times_for_DES_CBC.append(time_dec_DES_CBC_3)
+    for i in range(len(INITIAL_FILES)):
+        time1 = timeit.timeit(stmt=lambda: encrypt_file_DES_CBC(key,INITIAL_FILES[i],ENC_FILES[i]), number=TIMES)
+        times_for_DES_CBC.append(time1 + key_time)
+        time2 = timeit.timeit(stmt=lambda: decrypt_file_DES_CBC(key, ENC_FILES[i], DEC_FILES[i]), number=TIMES)
+        times_for_DES_CBC.append(time2)
     '''
     encrypt_file_DES_CBC(key,'initial_pic.png','enc_pic.png')
     decrypt_file_DES_CBC(key, 'enc_pic.png', 'dec_pic.png')
@@ -280,18 +275,11 @@ def enc_dec_RSA():
     key_generator_RSA()
     public_key, private_key = obtain_priv_pub_key()
     times_for_RSA = []
-    time_enc_RSA_1 = timeit.timeit(stmt=lambda: enc_RSA('initial_pic.png','enc_pic.png', public_key), number=TIMES)
-    times_for_RSA.append(time_enc_RSA_1)
-    time_dec_RSA_1 = timeit.timeit(stmt=lambda: dec_RSA('enc_pic.png', 'dec_pic.png', private_key), number=TIMES)
-    times_for_RSA.append(time_dec_RSA_1)
-    time_enc_RSA_2 = timeit.timeit(stmt=lambda: enc_RSA('initial_text.txt','enc_text.txt', public_key), number=TIMES)
-    times_for_RSA.append(time_enc_RSA_2)
-    time_dec_RSA_2 = timeit.timeit(stmt=lambda: dec_RSA('enc_text.txt', 'dec_text.txt', private_key), number=TIMES)
-    times_for_RSA.append(time_dec_RSA_2)
-    time_enc_RSA_3 = timeit.timeit(stmt=lambda: enc_RSA('initial_file.pdf','enc_file.pdf', public_key), number=TIMES)
-    times_for_RSA.append(time_enc_RSA_3)
-    time_dec_RSA_3 = timeit.timeit(stmt=lambda: dec_RSA('enc_file.pdf', 'dec_file.pdf', private_key), number=TIMES)
-    times_for_RSA.append(time_dec_RSA_3)
+    for i in range(len(INITIAL_FILES)):
+        time1 = timeit.timeit(stmt=lambda: enc_RSA(INITIAL_FILES[i],ENC_FILES[i], public_key), number=TIMES)
+        times_for_RSA.append(time1)
+        time2 = timeit.timeit(stmt=lambda: dec_RSA(ENC_FILES[i], DEC_FILES[i], private_key), number=TIMES)
+        times_for_RSA.append(time2)
     '''
     enc_RSA('initial_pic.png','enc_pic.png', public_key)
     dec_RSA('enc_pic.png', 'dec_pic.png', private_key)
