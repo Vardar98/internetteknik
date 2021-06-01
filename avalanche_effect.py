@@ -1,3 +1,16 @@
+'''
+A code by Emil Vardar. This code is generated as part of the course IK1552 Internetworking
+given at Royal Institute of Technology (KTH), Stockholm, Sweden. The goal with the code is
+analyze the differences between the symmetric key cryptographies: DES and AES, and asymmetric
+key cryptography: RSA. The code caluclates avalanche effect for each cryptography method and
+output the value in percentage. The code can calculate the avalanche effect when one bit in the
+plaintext has been changed and when one bit in the key has changed. 
+
+Feel free to use the code for any research. 
+'''
+
+
+
 import os
 import random
 import struct
